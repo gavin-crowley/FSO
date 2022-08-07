@@ -1,0 +1,35 @@
+0.4
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new-note
+server-->browser: HTML-code
+note over browser:
+note content sent to server via POST method
+new note is added to notes at /exampleapp/notes
+end note
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+server-->browser: HTML-code
+note over browser:
+new note is retrived from server via GET method
+note is displayed as html
+end note
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: CSS-code
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server-->browser: JavaScript-code
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: json file
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/favicon.ico
+server-->browser: favicon
+
+0.5
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+server-->browser: HTML-code
+note over browser:
+html page returned via GET method
+end note
+
+0.6
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+server-->browser: Json data
+note over browser:
+one request sent to server to create new spa note
+end note
