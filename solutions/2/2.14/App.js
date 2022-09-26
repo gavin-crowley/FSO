@@ -20,9 +20,11 @@ const App = () => {
   useEffect(() => {
     axios
       .get(
-        'api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=8e64341d2040d3b33c77344eb5c33395'
+        'https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=8e64341d2040d3b33c77344eb5c33395'
       )
-      .then((response) => {console.log(response)});
+      .then((response) => {
+        console.log(response);
+      });
   }, []);
 
   const filteredCountries = countries.filter((item) => {
