@@ -1,71 +1,49 @@
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Content from './components/Content';
+import Filter from './components/Filter';
 
 const App = () => {
-  const [good, setGood] = useState(0);
-  const [neutral, setNeutral] = useState(0);
-  const [bad, setBad] = useState(0);
+  const [countries, setCountries] = useState([]);
+  const [allCountries, setAllCountries] = useState([]);
+  const [newFilter, setNewFilter] = useState('');
 
-  const handleGood = () => setGood(good + 1);
-  const handleNeutral = () => setNeutral(neutral + 1);
-  const handleBad = () => setBad(bad + 1);
+  // useEffect(() => {
+  //   axios
+  //     // .get('https://restcountries.eu/rest/v3.1/all')
+  //     .get('https://restcountries.com/v3.1/all')
+  //     .then(response => {
+  //       console.log('promise fulfilled')
+  //       setAllCountries(response.data)
+  //     })
+  // }, [])
+  
+  useEffect(() => {
+    axios.get('https://restcountries.com/v3.1/all').then((response) => {
+      // const names = response.data.map((i) => i.name.common);
+      setAllCountries(response.data);
+      // console.log(allCountries);
+    });
+  }, []);
 
-  const Heading = ({ text }) => <h1>{text}</h1>;
-
-  const Button = ({ onClick, text }) => (
-    <button onClick={onClick}>{text}</button>
-  );
-
-  const StatisticLine = ({ text, value, symbol }) => (
-    <>
-      <tr>
-        <td>
-          {text}
-        </td>
-        <td>
-          {value} {symbol}
-        </td>
-      </tr>
-    </>
-  );
-
-  const Statistics = () => {
-    if ((good || neutral || bad) === 0) {
-      return <div>No feedback given</div>;
-    } else {
-      return (
-        <>
-          <table>
-            <tbody>
-              <StatisticLine text="good" value={good} />
-              <StatisticLine text="neutral" value={neutral} />
-              <StatisticLine text="bad" value={bad} />
-              <StatisticLine text="all" value={good + neutral + bad} />
-              <StatisticLine
-                text="average"
-                value={(good - bad) / (good + neutral + bad)}
-              />
-              <StatisticLine
-                text="positive"
-                value={good / (good + neutral + bad)}
-                symbol="%"
-              />
-            </tbody>
-          </table>
-        </>
-      );
+  const handleFilterChange = (event) => {
+    // console.log(event.target.value);
+    setNewFilter(event.target.value);
+    if (newFilter) {
+      const regex = new RegExp(newFilter, 'i');
+      const filteredCountries = () =>
+      console.log(allCountries)
+        allCountries.filter((country) => country.name.common.toLowerCase().includes(newFilter.toLowerCase()));
+        // allCountries.filter((country) => country.name.match(regex));
+      setCountries(filteredCountries);
     }
   };
 
   return (
     <div>
-      <Heading text="give feedback" />
-      <Button onClick={handleGood} text="good" />
-      <Button onClick={handleNeutral} text="neutral" />
-      <Button onClick={handleBad} text="bad" />
-
-      <Heading text="statistics" />
-
-      <Statistics />
+      <Filter value={newFilter} onChange={handleFilterChange} />
+      {countries}
+      <Content countries={countries} setCountries={setCountries} />
     </div>
   );
 };
